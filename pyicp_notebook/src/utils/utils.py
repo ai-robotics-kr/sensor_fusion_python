@@ -11,6 +11,14 @@ def normalize_angles(angles):
     angles = (angles + np.pi) % (2 * np.pi) - np.pi
     return angles
 
+def initial_pose_mat(dataset, xyz_vector):
+    pose_mat = dataset.oxts[0].T_w_imu
+    pose_mat[0][3] = xyz_vector[0]
+    pose_mat[1][3] = xyz_vector[1]
+    pose_mat[2][3] = xyz_vector[2]
+    
+    return pose_mat
+
 def generate_gt_sets(dataset):
     gt_trajectory_lla = []      # [longitude(deg), latitude(deg), altitude(meter)] x N
     gt_yaws = []                # [yaw_angle(rad),] x N

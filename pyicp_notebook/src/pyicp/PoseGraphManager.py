@@ -23,11 +23,14 @@ class PoseGraphManager:
 
         self.graph_optimized = None
 
-    def addPriorFactor(self):
+    def addPriorFactor(self, initial_pose=None):
         self.curr_node_idx = 0
         self.prev_node_idx = 0
 
-        self.curr_se3 = np.eye(4)
+        if initial_pose is None:
+            self.curr_se3 = np.eye(4)
+        else:
+            self.curr_se3 = np.copy(initial_pose)
 
         self.graph_initials.add(minisam.key('x', self.curr_node_idx), minisam.SE3(self.curr_se3))
         self.graph_factors.add(minisam.PriorFactor(
