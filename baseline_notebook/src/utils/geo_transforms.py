@@ -71,7 +71,7 @@ def ecef_to_enu(points_ecef, ref_lla):
     """
     lon = np.radians(ref_lla[0])
     lat = np.radians(ref_lla[1])
-    alt = ref_lla[2]
+    alt = ref_lla[2]    
 
     ref_ecef = lla_to_ecef(ref_lla)  # [3,]
 
@@ -116,7 +116,7 @@ def ecef_to_lla(points_ecef):
     N x [longitude(deg), latitude(deg), altitude(m)] coords.
     """
     # approximate inverse transformation of `lla_to_ecef`
-    
+
     x = points_ecef[0]  # [N,]
     y = points_ecef[1]  # [N,]
     z = points_ecef[2]  # [N,]
@@ -126,7 +126,7 @@ def ecef_to_lla(points_ecef):
 
     lon = np.arctan(y / x)  # [N,]
     lat = np.arctan(
-        (z + (_e_prime ** 2.) * _b * (np.sin(theta) ** 3.)) / \
+        (z + (_e_prime ** 2.) * _b * (np.sin(theta) ** 3.)) /
         (p - (_e ** 2.) * _a * (np.cos(theta)) ** 3.)
     )  # [N,]
     N = _a / np.sqrt(1. - (_e * np.sin(lat)) ** 2.)  # [N,]
