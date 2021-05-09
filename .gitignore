@@ -1,0 +1,6 @@
+*.pyc
+*.mp4
+*.so
+
+.vscode
+result
