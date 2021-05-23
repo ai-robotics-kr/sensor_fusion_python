@@ -13,7 +13,9 @@ def normalize_angles(angles):
 
 def initial_pose_mat(dataset, xyz_vector):
     pose_mat = dataset.oxts[0].T_w_imu
-    pose_mat[:-1, 3] = xyz_vector
+    pose_mat[0][3] = xyz_vector[0]
+    pose_mat[1][3] = xyz_vector[1]
+    pose_mat[2][3] = xyz_vector[2]
     
     return pose_mat
 
