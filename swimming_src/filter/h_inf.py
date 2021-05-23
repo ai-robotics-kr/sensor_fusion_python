@@ -6,19 +6,10 @@ class HInf(Filter):
     def __init__(self):
         super().__init__()
 
-        # Basically, We assume that robot moves in 3D place
-        self._state = np.zeros((1, 3))
-        self._covariance = np.eye(3)
-
         self.GAMMA = 0.025
 
     def set_gamma(self, gamma):
         self.GAMMA = gamma
-
-    # Set Initial state / cov
-    def set_initial_state(self, initial_x, initial_cov):
-        self._state = initial_x
-        self._covariance = initial_cov
 
     # Brand-New Sensor data incoming
     def measurement(self):
