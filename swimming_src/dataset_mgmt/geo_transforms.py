@@ -1,8 +1,6 @@
-# references:
-# [1] https://www.enri.go.jp/~fks442/K_MUSEN/1st/1st060428rev2.pdf
+# references: [1] https://www.enri.go.jp/~fks442/K_MUSEN/1st/1st060428rev2.pdf
 
 import numpy as np
-
 
 # constant parameters defined in [1]
 _a = 6378137.0
