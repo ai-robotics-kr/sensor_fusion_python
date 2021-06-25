@@ -24,6 +24,19 @@ This Repo Contains following functions
 
 ## Future Works
 
+* Ongoing
+- [ ] KITTI Dataset API
+- [ ] KF/EKF
+- [ ] Particle Filter
+- [ ] H Infinity Filter
+- [ ] UKF
+- [ ] ORB SLAM
+- [ ] PyICP
+
+* Advanced
+- [ ] API for NaverLabs Dataset
+- [ ] ...
+
 ## Reference
 
 The project began with inspiration from the following projects.
