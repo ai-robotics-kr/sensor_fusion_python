@@ -12,10 +12,24 @@
 
 ## Run
 
+This Repo Contains following functions 
+
+1. Execute Various Sensor Fusion Methods with KITTI Dataset
+2. Pose estimation with Lidar/Camera sensor data
+3. Fuse data from different Sensors (with various methods)
+4. Camera/Lidar SLAM are also supported :0
+
 ## Short Explanantion
 
 
 ## Future Works
+
+## Reference
+
+The project began with inspiration from the following projects.
+
+* [pykitti](https://github.com/utiasSTARS/pykitti)
+* [kalman_filter_witi_kitti](https://github.com/motokimura/kalman_filter_witi_kitti)
 
 ## Developers
 
