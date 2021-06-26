@@ -1,11 +1,12 @@
 from dataset_mgmt import KittiDatasetMgmt
 from filter import EKF
 
-kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"
+kitti_root_dir = "/Users/swimm_kim/Documents/Dataset"
+# kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"
 kitti_date = "2011_09_30"
 kitti_drive = "0033"
 
-PLOT_DATA = False
+PLOT_DATA = True
 
 if __name__ == "__main__":
 
@@ -25,7 +26,7 @@ if __name__ == "__main__":
         dataset_mgmt.plotNoisytrajactory()
 
     try:
-        ekf = EKF()
+        # ekf = EKF()
         pass
     except Exception as e:
         print(e)

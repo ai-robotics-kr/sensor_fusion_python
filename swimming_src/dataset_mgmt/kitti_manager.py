@@ -1,9 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import platform
 import pykitti
 
 # from geo_utils.geo_transforms import lla_to_enu
 from .geo_utils.geo_transforms import lla_to_enu
+
+OS_PLATFORM = platform.system()
+
+# Matplotlib Figure Size depends on the OS Platform used.
+FIG_SIZE = {"Linux": {}, "Darwin": {}, "Windows": {}}
 
 
 class KittiDatasetMgmt(object):
@@ -41,7 +47,7 @@ class KittiDatasetMgmt(object):
         self.initial_yaw_std = np.pi
 
     def reloadDataset(self, kitti_root_dir, kitti_date, kitti_drive):
-        """Reset Class Variables and with Reloading Datset """
+        """Reset Class Variables and with Reloading Datset"""
         self.dataset = pykitti.raw(kitti_root_dir, kitti_date, kitti_drive)
 
         self.gt_trajectory_lla = []
@@ -265,10 +271,7 @@ class KittiDatasetMgmt(object):
         plt.show()
 
     def addGaussianNoiseToGPS(
-        self,
-        gt_trajectory_xyz=None,
-        gt_yaw_rates=None,
-        gt_forward_velocities=None,
+        self, gt_trajectory_xyz=None, gt_yaw_rates=None, gt_forward_velocities=None,
     ):
 
         if gt_trajectory_xyz is None:
@@ -324,7 +327,14 @@ if __name__ == "__main__":
     """
 
     # kitti_root_dir = "/home/swimming/Documents/Dataset" # Put your dataset location
-    kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"  # Put your dataset location
+
+    # Ubuntu Location
+    # kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"  # Put your dataset location
+
+    # Mac OS Location
+    kitti_root_dir = (
+        "/Users/swimm_kim/Documents/Dataset/2011_09_30"  # Put your dataset location
+    )
 
     kitti_date = "2011_09_30"
     kitti_drive = "0033"
