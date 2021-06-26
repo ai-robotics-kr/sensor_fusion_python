@@ -6,25 +6,26 @@ class UFK(object):
     def __init__(self):
         super().__init__()
 
-        # Basically, We assume that robot moves in 3D place
-        self._state = np.zeros((1, 3))
-        self._covariance = np.eye(3)
+        # Basically, We assume that robot moves in 2D place
+        # state will be [x, y, theta]
+        self.state = np.zeros((1, 3))
+        self.covariance = np.eye(3)
 
-    # Set Initial state / cov
-    def set_initial_state(self, initial_x, initial_cov):
-        self._state = initial_x
-        self._covariance = initial_cov
+    def setInitialState(self, initial_state, initial_cov):
+        """Set Initial State & Covariance"""
+        self.state = initial_state
+        self.covariance = initial_cov
 
-    # Brand-New Sensor data incoming
     def measurement(self):
+        """Brand-New Sensor data incoming"""
         pass
 
-    # Update current state / cov
     def update(self):
+        """Update current State & Covariance"""
         pass
 
-    # Actual Sensor Fusion Magic happends in here
     def propagate(self):
+        """Filter Applied Part, Actual Sensor Fusion Magic happends in here """
         pass
 
 
