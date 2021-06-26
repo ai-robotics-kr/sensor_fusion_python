@@ -75,3 +75,67 @@ R = np.array(
         [0.0, 0.0, yaw_rate_noise_std ** 2.0],
     ]
 )
+
+
+
+
+# initialize Kalman filter
+kf = EKF(x, P)
+
+# array to store estimated 2d pose [x, y, theta]
+mu_x = [x[0],]
+mu_y = [x[1],]
+mu_theta = [x[2],]
+
+# array to store estimated error variance of 2d pose
+var_x = [P[0, 0],]
+var_y = [P[1, 1],]
+var_theta = [P[2, 2],]
+
+t_last = 0.
+for t_idx in range(1, N):
+    t = ts[t_idx]
+    dt = t - t_last
+    
+    # get control input `u = [v, omega] + noise`
+    u = np.array([
+        obs_forward_velocities[t_idx],
+        obs_yaw_rates[t_idx]
+    ])
+    
+    # because velocity and yaw rate are multiplied with `dt` in state transition function,
+    # its noise covariance must be multiplied with `dt**2.`
+    R_ = R * (dt ** 2.)
+    
+    # propagate!
+    kf.propagate(u, dt, R)
+    
+    # get measurement `z = [x, y] + noise`
+    z = np.array([
+        obs_trajectory_xyz[0, t_idx],
+        obs_trajectory_xyz[1, t_idx]
+    ])
+    
+    # update!
+    kf.update(z, Q)
+    
+    # save estimated state to analyze later
+    mu_x.append(kf.x[0])
+    mu_y.append(kf.x[1])
+    mu_theta.append(normalize_angles(kf.x[2]))
+    
+    # save estimated variance to analyze later
+    var_x.append(kf.P[0, 0])
+    var_y.append(kf.P[1, 1])
+    var_theta.append(kf.P[2, 2])
+    
+    t_last = t
+    
+
+mu_x = np.array(mu_x)
+mu_y = np.array(mu_y)
+mu_theta = np.array(mu_theta)
+
+var_x = np.array(var_x)
+var_y = np.array(var_y)
+var_theta = np.array(var_theta)
