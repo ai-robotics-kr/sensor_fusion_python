@@ -38,9 +38,21 @@ class KittiDatasetMgmt(object):
         )
         self.yaw_rate_noise_std = 0.02  # standard deviation of yaw rate in rad/
         self.forward_velocity_noise_std = 0.3
+        self.initial_yaw_std = np.pi
 
     def reloadDataset(self, kitti_root_dir, kitti_date, kitti_drive):
+        """Reset Class Variables and with Reloading Datset """
         self.dataset = pykitti.raw(kitti_root_dir, kitti_date, kitti_drive)
+
+        self.gt_trajectory_lla = []
+        self.gt_yaws = []
+        self.gt_yaw_rates = []
+        self.gt_forward_velocities = []
+        self.ts = []
+
+        self.noisy_trajectory_xyz = []
+        self.noisy_forward_velocities = []
+        self.noisy_yaw_rates = []
 
     def generateGroundTruthSets(self):
         """
@@ -68,7 +80,28 @@ class KittiDatasetMgmt(object):
         """TODO: shape for all data types??"""
         return self.gt_trajectory_lla.shape
 
-    def getInitialPoseMat(self):
+    def getInitialStateVec2D(self):
+        """
+        Suppose initial 2d position [x, y] estimation are initialized with the first GPS observation.
+        Since our vehicle has no sensor to measure yaw angle,
+        yaw estimation is initialized randomly and its variance is initialized with some large value (e.g. pi).
+        2D version has (3, 1) Shape
+        """
+
+        self.initial_yaw_std = np.pi
+        initial_yaw = self.gt_yaws[0] + np.random.normal(0, self.initial_yaw_std)
+
+        initial_state_vec = np.array(
+            [
+                self.noisy_trajectory_xyz[0, 0],
+                self.obs_trajectory_xyz[1, 0],
+                initial_yaw,
+            ]
+        )
+
+        return initial_state_vec
+
+    def getInitialPoseMat3D(self):
         """
         retrieve initial pose matrix from dataset
         Use output of this at the first of filter loop for ground truth heading
@@ -77,6 +110,38 @@ class KittiDatasetMgmt(object):
         initial_pose_mat[:-1, 3] = self.gt_trajectory_xyz[:, 0]
 
         return initial_pose_mat
+
+    def getInitialCovMat2D(self):
+        """
+        Prepare initial covariance Matrix P
+        covariance for initial state estimation error (Sigma_0)
+        2D version has (3, 3) Shape
+        """
+
+        initial_cov_mat = np.array(
+            [
+                [self.xy_obs_noise_std ** 2.0, 0.0, 0.0],
+                [0.0, self.xy_obs_noise_std ** 2.0, 0.0],
+                [0.0, 0.0, self.initial_yaw_std ** 2.0],
+            ]
+        )
+        return initial_cov_mat
+
+    def getInitialCovMat3D(self):
+        """"""
+        # return initial_pose_mat
+        pass
+
+    def getMeasureErrMat2D(self):
+        """
+        Prepare measuerment error covariance Q
+        2D version has (2, 2) Shape
+        """
+        meas_err_mat = np.array(
+            [[self.xy_obs_noise_std ** 2.0, 0.0], [0.0, self.xy_obs_noise_std ** 2.0]]
+        )
+
+        return meas_err_mat
 
     def getNoisyTrajXYZ(self):
         return self.noisy_trajectory_xyz
