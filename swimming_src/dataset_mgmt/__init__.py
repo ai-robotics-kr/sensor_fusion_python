@@ -1,1 +1,1 @@
-from . import kitti_manager
+from .kitti_manager import KittiDatasetMgmt
