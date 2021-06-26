@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pykitti
 
-from geo_transforms import lla_to_enu
+# from geo_utils.geo_transforms import lla_to_enu
+from .geo_utils.geo_transforms import lla_to_enu
 
 
 class KittiDatasetMgmt(object):
