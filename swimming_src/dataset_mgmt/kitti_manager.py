@@ -77,6 +77,18 @@ class KittiDatasetMgmt(object):
 
         return initial_pose_mat
 
+    def getNoisyTrajXYZ(self):
+        return self.noisy_trajectory_xyz
+
+    def getNoisyForwardVelocities(self):
+        return self.noisy_forward_velocities
+
+    def getNoisyYawRates(self):
+        return self.noisy_yaw_rates
+
+    def getTimeStamp(self):
+        return self.ts
+
     def plotGPStrajactory(self):
         """
         run after generateGroundTruthSets, plot trajactory with GPS lng/lat data
@@ -231,6 +243,20 @@ class KittiDatasetMgmt(object):
 
 
 if __name__ == "__main__":
+    """Prepare Dataset as following example
+    2011_09_30/
+        ├── 2011_09_30_drive_0033_sync
+        │   ├── image_00
+        │   ├── image_01
+        │   ├── image_02
+        │   ├── image_03
+        │   ├── oxts
+        │   └── velodyne_points
+        ├── calib_cam_to_cam.txt
+        ├── calib_imu_to_velo.txt
+        └── calib_velo_to_cam.txt
+    """
+
     # kitti_root_dir = "/home/swimming/Documents/Dataset" # Put your dataset location
     kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"  # Put your dataset location
 
@@ -239,9 +265,11 @@ if __name__ == "__main__":
 
     test_mgmt = KittiDatasetMgmt(kitti_root_dir, kitti_date, kitti_drive)
 
-    # test_mgmt.plotGPStrajactory()
-    # test_mgmt.plotXYZtrajactory()
-    # test_mgmt.plotGTvalue()
+    test_mgmt.plotGPStrajactory()
+    test_mgmt.plotXYZtrajactory()
+    test_mgmt.plotGTvalue()
+
+    # Noise Addition!!
     test_mgmt.addGaussianNoiseToGPS()
     test_mgmt.plotNoisytrajactory()
 
