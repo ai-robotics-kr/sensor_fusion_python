@@ -86,6 +86,7 @@ class KittiDatasetMgmt(object):
         """TODO: shape for all data types??"""
         return self.gt_trajectory_lla.shape
 
+    # x
     def getInitialStateVec2D(self):
         """
         Suppose initial 2d position [x, y] estimation are initialized with the first GPS observation.
@@ -100,7 +101,7 @@ class KittiDatasetMgmt(object):
         initial_state_vec = np.array(
             [
                 self.noisy_trajectory_xyz[0, 0],
-                self.obs_trajectory_xyz[1, 0],
+                self.noisy_trajectory_xyz[1, 0],
                 initial_yaw,
             ]
         )
@@ -117,6 +118,7 @@ class KittiDatasetMgmt(object):
 
         return initial_pose_mat
 
+    # P
     def getInitialCovMat2D(self):
         """
         Prepare initial covariance Matrix P
@@ -136,21 +138,40 @@ class KittiDatasetMgmt(object):
     def getInitialCovMat3D(self):
         """"""
         # return initial_pose_mat
-        pass
+        print("Not Yet Implemented")
+        return None
 
-    def getMeasureErrMat2D(self):
+    # Q
+    def getInitialMeasErrMat2D(self):
         """
         Prepare measuerment error covariance Q
         2D version has (2, 2) Shape
         """
         meas_err_mat = np.array(
-            [[self.xy_obs_noise_std ** 2.0, 0.0], [0.0, self.xy_obs_noise_std ** 2.0]]
+            [
+                [self.xy_obs_noise_std ** 2.0, 0.0], 
+                [0.0, self.xy_obs_noise_std ** 2.0],
+            ]
         )
 
         return meas_err_mat
 
+    def getInitialMeasErrMat3D(self):
+        pass
+
     def getNoisyTrajXYZ(self):
         return self.noisy_trajectory_xyz
+
+    # R
+    def getNoiseCov2D(self):
+        """Return Noise Covariance Mat for Measurement
+        """
+        noise_cov_mat = np.array([
+            [self.forward_velocity_noise_std ** 2., 0., 0.],
+            [0., self.forward_velocity_noise_std ** 2., 0.],
+            [0., 0., self.yaw_rate_noise_std ** 2.]
+        ])
+        return noise_cov_mat
 
     def getNoisyForwardVelocities(self):
         return self.noisy_forward_velocities
@@ -326,28 +347,36 @@ if __name__ == "__main__":
         └── calib_velo_to_cam.txt
     """
 
-    # kitti_root_dir = "/home/swimming/Documents/Dataset" # Put your dataset location
-
     # Ubuntu Location
+    # 20.04
+    kitti_root_dir = "/home/swimming/Documents/Dataset" # Put your dataset location
+    # 18.04
     # kitti_root_dir = "/home/kimsooyoung/Documents/AI_KR"  # Put your dataset location
 
     # Mac OS Location
-    kitti_root_dir = (
-        "/Users/swimm_kim/Documents/Dataset/2011_09_30"  # Put your dataset location
-    )
+    # kitti_root_dir = (
+    #     "/Users/swimm_kim/Documents/Dataset/2011_09_30"  # Put your dataset location
+    # )
 
     kitti_date = "2011_09_30"
     kitti_drive = "0033"
 
     test_mgmt = KittiDatasetMgmt(kitti_root_dir, kitti_date, kitti_drive)
 
-    test_mgmt.plotGPStrajactory()
-    test_mgmt.plotXYZtrajactory()
-    test_mgmt.plotGTvalue()
+    # test_mgmt.plotGPStrajactory()
+    # test_mgmt.plotXYZtrajactory()
+    # test_mgmt.plotGTvalue()
 
     # Noise Addition!!
     test_mgmt.addGaussianNoiseToGPS()
-    test_mgmt.plotNoisytrajactory()
+    # test_mgmt.plotNoisytrajactory()
 
+    # Initial Vec/Mat Test
+    x = test_mgmt.getInitialStateVec2D()
+    P = test_mgmt.getInitialCovMat2D()
+    Q = test_mgmt.getInitialMeasErrMat2D()
+    R = test_mgmt.getNoiseCov2D()
+
+    print(f"{x} \n {P} \n {Q} \n {R} \n")
     # Unit Test Here
     pass
