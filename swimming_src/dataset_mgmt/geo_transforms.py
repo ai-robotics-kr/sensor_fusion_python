@@ -68,6 +68,7 @@ def ecef_to_enu(points_ecef, ref_lla):
 def lla_to_enu(points_lla, ref_lla):
     """transform N x [longitude(deg), latitude(deg), altitude(m)] coords into
     N x [x, y, z] coords measured in a local East-North-Up frame.
+    refer this page : https://saack.tistory.com/96
     """
     points_ecef = lla_to_ecef(points_lla)
     points_enu = ecef_to_enu(points_ecef, ref_lla)
@@ -129,6 +130,7 @@ def enu_to_lla(points_enu, ref_lla):
     points_ecef = enu_to_ecef(points_enu, ref_lla)
     points_lla = ecef_to_lla(points_ecef)
     return points_lla
+
 
 def normalize_angles(angles):
     """
