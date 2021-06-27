@@ -85,6 +85,24 @@ class KittiDatasetMgmt(object):
     def getDatasetShape(self):
         """TODO: shape for all data types??"""
         return self.gt_trajectory_lla.shape
+    
+    def getGPSTraj(self):
+        return self.gt_trajectory_xyz
+
+    def getNoisyTrajXYZ(self):
+        return self.noisy_trajectory_xyz
+
+    def getNoisyForwardVelocities(self):
+        return self.noisy_forward_velocities
+
+    def getNoisyYawRates(self):
+        return self.noisy_yaw_rates
+
+    def getTimeStamp(self):
+        return self.ts
+
+    def getGTYaws(self):
+        return self.gt_yaws
 
     # x
     def getInitialStateVec2D(self):
@@ -159,8 +177,7 @@ class KittiDatasetMgmt(object):
     def getInitialMeasErrMat3D(self):
         pass
 
-    def getNoisyTrajXYZ(self):
-        return self.noisy_trajectory_xyz
+
 
     # R
     def getNoiseCov2D(self):
@@ -172,15 +189,6 @@ class KittiDatasetMgmt(object):
             [0., 0., self.yaw_rate_noise_std ** 2.]
         ])
         return noise_cov_mat
-
-    def getNoisyForwardVelocities(self):
-        return self.noisy_forward_velocities
-
-    def getNoisyYawRates(self):
-        return self.noisy_yaw_rates
-
-    def getTimeStamp(self):
-        return self.ts
 
     def plotGPStrajactory(self):
         """
