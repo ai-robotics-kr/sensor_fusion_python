@@ -6,11 +6,12 @@ from visualize import ResultVizPlotter
 from filter import EKF
 
 kitti_root_dir = "/Users/swimm_kim/Documents/Dataset"
+kitti_root_dir = "/home/swimming/Documents/Dataset"
 # kitti_root_dir = "/home/swimming/Documents/Dataset"
 kitti_date = "2011_09_30"
 kitti_drive = "0033"
 
-PLOT_DATA = False
+PLOT_DATA = True
 
 if __name__ == "__main__":
 
@@ -27,7 +28,7 @@ if __name__ == "__main__":
 
     # Plot Noise-Added Data
     if PLOT_DATA is True:
-        dataset_mgmt.plotNoisytrajactory()
+        dataset_mgmt.plotNoisyData()
 
     # Prepare Entry Point
     # P : covariance for initial state estimation error (Sigma_0)
