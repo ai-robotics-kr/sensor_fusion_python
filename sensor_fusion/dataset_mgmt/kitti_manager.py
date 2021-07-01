@@ -85,6 +85,24 @@ class KittiDatasetMgmt(object):
     def getDatasetShape(self):
         """TODO: shape for all data types??"""
         return self.gt_trajectory_lla.shape
+    
+    def getGPSTraj(self):
+        return self.gt_trajectory_xyz
+
+    def getNoisyTrajXYZ(self):
+        return self.noisy_trajectory_xyz
+
+    def getNoisyForwardVelocities(self):
+        return self.noisy_forward_velocities
+
+    def getNoisyYawRates(self):
+        return self.noisy_yaw_rates
+
+    def getTimeStamp(self):
+        return self.ts
+
+    def getGTYaws(self):
+        return self.gt_yaws
 
     # x
     def getInitialStateVec2D(self):
@@ -159,8 +177,7 @@ class KittiDatasetMgmt(object):
     def getInitialMeasErrMat3D(self):
         pass
 
-    def getNoisyTrajXYZ(self):
-        return self.noisy_trajectory_xyz
+
 
     # R
     def getNoiseCov2D(self):
@@ -172,15 +189,6 @@ class KittiDatasetMgmt(object):
             [0., 0., self.yaw_rate_noise_std ** 2.]
         ])
         return noise_cov_mat
-
-    def getNoisyForwardVelocities(self):
-        return self.noisy_forward_velocities
-
-    def getNoisyYawRates(self):
-        return self.noisy_yaw_rates
-
-    def getTimeStamp(self):
-        return self.ts
 
     def plotGPStrajactory(self):
         """
@@ -216,26 +224,30 @@ class KittiDatasetMgmt(object):
         plot Ground-Truth Yaw angles / Yaw rates /Forward velocity
         ts required for plotlib x-axis
         """
-        fig, ax = plt.subplots(3, 1, figsize=(12, 14))
+        fig, ax = plt.subplots(3, 1, gridspec_kw={"height_ratios": [1, 1, 1]}, figsize=(10, 12))
 
         ax[0].plot(self.ts, self.gt_yaws)
         ax[0].title.set_text("Ground-Truth yaw angles")
         ax[0].set_xlabel("time elapsed [sec]")
         ax[0].set_ylabel("ground-truth yaw angle [rad]")
+        ax[0].legend()
 
         ax[1].plot(self.ts, self.gt_yaw_rates)
         ax[1].title.set_text("Yaw Rates")
         ax[1].set_xlabel("time elapsed [sec]")
         ax[1].set_ylabel("ground-truth yaw rate [rad/s]")
+        ax[1].legend()
+
 
         ax[2].plot(self.ts, self.gt_forward_velocities)
         ax[2].title.set_text("Forward Velocitis")
         ax[2].set_xlabel("time elapsed [sec]")
         ax[2].set_ylabel("ground-truth forward velocity [m/s]")
+        ax[2].legend()
 
         plt.show()
 
-    def plotNoisytrajactory(self):
+    def plotNoisyData(self):
         """
         After addGaussianNoiseToGPS, plot 3 types of noisy/ground-truth data at same plot
 

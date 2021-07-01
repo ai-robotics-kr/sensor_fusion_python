@@ -1,5 +1,4 @@
 import numpy as np
-
 from sensor_fusion.dataset_mgmt.geo_utils import normalize_angles
 from sensor_fusion.dataset_mgmt import KittiDatasetMgmt
 from sensor_fusion.filter import EKF
@@ -31,7 +30,7 @@ def main():
                         help='Device used for model inference.')
 
     args = parser.parse_args()
-    dataset_mgmt = KittiDatasetMgmt(args.kitti_root_dir, args.kitti_date, kitti_drive)
+    dataset_mgmt = KittiDatasetMgmt(args.kitti_root_dir, args.kitti_date, args.kitti_drive)
 
     # plot your dataset
     if args.plot_data is True:
