@@ -14,7 +14,7 @@ from tqdm import tqdm
 
 import pykitti
 
-sys.path.append('./src')
+sys.path.append('src')
 
 from minisam import *
 from kalman_filters import ExtendedKalmanFilter as EKF
