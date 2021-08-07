@@ -3,13 +3,14 @@ from sensor_fusion.dataset_mgmt.geo_utils import normalize_angles
 from sensor_fusion.dataset_mgmt import KittiDatasetMgmt
 from sensor_fusion.filter import EKF
 import argparse
+from sensor_fusion.visualize import Visualization
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--kitti_root_dir',
         type=str,
-        default="/home/swimming/Documents/Dataset",
+        default="D:\\2011_09_30_drive_0033_sync",
         help='Root directory for loading Kitti dataset '
     )
     parser.add_argument(
@@ -26,24 +27,28 @@ def main():
 
     parser.add_argument('--plot_data',
                         type=bool,
-                        default=False,
+                        default=True,
                         help='Device used for model inference.')
+
+    parser.add_argument('--filter',
+                        type=str,
+                        default='EKF',
+                        choices=['KF','EKF','UKF','PF','HINF','LIDAR-SLAM','VISION-SLAM'],
+                        help='Filter which you want to use.[KF,EKF,UKF,PF,HINF,LIDAR-SLAM,VISION-SLAM]')
 
     args = parser.parse_args()
     dataset_mgmt = KittiDatasetMgmt(args.kitti_root_dir, args.kitti_date, args.kitti_drive)
 
-    # plot your dataset
-    if args.plot_data is True:
-        dataset_mgmt.plotGPStrajactory()
-        dataset_mgmt.plotXYZtrajactory()
-        dataset_mgmt.plotGTvalue()
-
     # Noise Addition!!
     dataset_mgmt.addGaussianNoiseToGPS()
 
-    # Plot Noise-Added Data
+    # Plot Data
     if args.plot_data is True:
-        dataset_mgmt.plotNoisytrajactory()
+        viz = Visualization(dataset_mgmt)
+        viz.plotGPStrajactory()
+        viz.plotXYZtrajactory()
+        viz.plotGTvalue()
+        viz.plotNoisyData()
 
     # Prepare Entry Point
     x = dataset_mgmt.getInitialStateVec2D()
@@ -129,6 +134,7 @@ def main():
         print(e)
     finally:
         print(f"Done...")
+        if
 
 
 if __name__ == "__main__":
