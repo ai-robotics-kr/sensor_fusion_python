@@ -43,25 +43,25 @@ class Visualization(object):
         plot Ground-Truth Yaw angles / Yaw rates /Forward velocity
         ts required for plotlib x-axis
         """
-        fig, ax = plt.subplots(3, 1, gridspec_kw={"height_ratios": [1, 1, 1]}, figsize=(10, 12))
+        fig, ax = plt.subplots(3, 1, gridspec_kw={"height_ratios": [1, 1, 1]}, figsize=(10, 14))
 
         ax[0].plot(self.dataset.ts, self.dataset.gt_yaws)
         ax[0].title.set_text("Ground-Truth yaw angles")
         ax[0].set_xlabel("time elapsed [sec]")
         ax[0].set_ylabel("ground-truth yaw angle [rad]")
-        ax[0].legend()
+        # ax[0].legend()
 
         ax[1].plot(self.dataset.ts, self.dataset.gt_yaw_rates)
         ax[1].title.set_text("Yaw Rates")
         ax[1].set_xlabel("time elapsed [sec]")
         ax[1].set_ylabel("ground-truth yaw rate [rad/s]")
-        ax[1].legend()
+        # ax[1].legend()
 
         ax[2].plot(self.dataset.ts, self.dataset.gt_forward_velocities)
         ax[2].title.set_text("Forward Velocitis")
         ax[2].set_xlabel("time elapsed [sec]")
         ax[2].set_ylabel("ground-truth forward velocity [m/s]")
-        ax[2].legend()
+        # ax[2].legend()
 
         plt.show()
 
