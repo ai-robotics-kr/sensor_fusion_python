@@ -2,7 +2,7 @@ import numpy as np
 from .basic_filter import Filter
 
 
-class EKF(Filter):
+class EKF(object):
     def __init__(self, x, P):
         super().__init__()
 
@@ -37,7 +37,7 @@ class EKF(Filter):
         self.cov = self.cov - K @ H @ self.cov
 
     # Actual Sensor Fusion Magic happends in here
-    def propagate(self, u, dt, R):
+    def statePrediction(self, u, dt, R):
         """propagate x and P based on state transition model defined as eq. (5.9) in [1]
         Args:
             u (numpy.array): control input: [v, omega]^T

@@ -104,7 +104,7 @@ def main():
             R = R * (dt ** 2.0)
 
             # propagate!
-            ekf.propagate(u, dt, R)
+            ekf.statePrediction(u, dt, R)
 
             # get measurement `z = [x, y] + noise`
             z = np.array(
@@ -119,7 +119,6 @@ def main():
             estimated_var.append([ekf.cov[0, 0], ekf.cov[1, 1], ekf.cov[2, 2]])
 
             t_last = t
-
 
         estimated_state = np.array(estimated_state)
         estimated_var = np.array(estimated_var)
