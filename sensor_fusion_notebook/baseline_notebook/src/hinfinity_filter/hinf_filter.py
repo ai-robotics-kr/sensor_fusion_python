@@ -17,7 +17,9 @@ class HinfFilter:
         S_bar = L@S@L.T
         gamma = 0.025
         I  = np.eye(3)
-        print("gamma : ", gamma)
+
+        # print("gamma : ", gamma)
+        
         H = np.array([
             [1., 0., 0.],
             [0., 1., 0.],
@@ -26,8 +28,10 @@ class HinfFilter:
         P_bar = I-gamma*S_bar@self.P+H.T@np.linalg.inv(R)@H@self.P
         K = self.P@np.linalg.inv(P_bar)@H.T@np.linalg.inv(R)
         satisfaction = np.linalg.inv(S)-gamma*S_bar+H.T@np.linalg.inv(R)@H
+        
         if np.linalg.norm(satisfaction)<=0:
             print("not satisfied", np.linalg.norm(satisfaction))
+        
         # nu  = z -H@self.x
         # Pinf = np.linalg.inv(I-(Q/gamma/gamma)+self.P@H.T@H)@Qbar;
         # Qbar = Pinf + Q

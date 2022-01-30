@@ -1,0 +1,13 @@
+cd ~/
+mkdir sf_study && cd sf_study
+python3 -m venv sf_env
+source sf_env/bin/activate
+
+git clone https://github.com/ai-robotics-kr/sensor_fusion_python.git
+cd sensor_fusion_python
+pip3 install -r requirements.txt
+
+TODO: relative path for csv read/wrtie
+
+현재 sensor_fusion_notebook > baseline_notebook 에서 작업 중
+
